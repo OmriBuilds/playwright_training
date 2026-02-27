@@ -1,6 +1,5 @@
 
 
-
 class NasaHomePage:
     def __init__(self, page):
         self.page = page
@@ -20,5 +19,9 @@ class NasaHomePage:
         image_of_the_day_link = self.page.get_by_role("link", name="Image of the Day")
         image_of_the_day_link.click()
 
-
+    def check_explore_menu_links(self):
+        self.page.get_by_role("button", name="Explore").click()
+        links_list = self.page.locator("ul.hds-global-menu-primary.global-nav__primary-list.usa-nav__submenu-list").get_by_role("link").all()
+        for link in links_list:
+            print(f"Link: '{link.inner_text()}' | '{link.get_attribute('href')}'")
 

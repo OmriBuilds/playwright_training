@@ -44,8 +44,7 @@ class TestNASAHomePage:
     def test_logo_link_image_page(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         NasaHomePage(page).go_to_image_of_the_day()
-        ImageOfTheDayPage(page).verify_logo_link()
-        assert page.url == URL, "Logo link does not match URL."
+        assert ImageOfTheDayPage(page).verify_logo_link() == URL, f"Logo link does not match '{URL}'."
 
     def test_image_of_the_day_date(self, setup_playwright_nasa):
         page = setup_playwright_nasa
@@ -55,6 +54,10 @@ class TestNASAHomePage:
         image_date = image_page.get_date_image_of_the_day()
         assert image_date == date.today().strftime("%b %d, %Y").upper(), "Image date does not match current date."
 
+    def test_explore_menu_links(self, setup_playwright_nasa):
+        page = setup_playwright_nasa
+        homepage = NasaHomePage(page)
+        homepage.check_explore_menu_links()
 
 
 
