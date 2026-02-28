@@ -51,7 +51,7 @@ class TestNASAWebsite:
         assert ImageOfTheDayPage(page).verify_logo_link() == URL, f"Logo link does not match '{URL}'."
 
     ## Goes to "Image of the day" page, extracts the publishing date of the latest uploaded image,
-    ## compares to current date using strftime,
+    ## compares to current date using strftime, checks if the latest image was uploaded today.
     def test_image_of_the_day_date(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         NasaHomePage(page).go_to_image_of_the_day()
@@ -60,6 +60,7 @@ class TestNASAWebsite:
         image_date = image_page.get_date_image_of_the_day()
         assert image_date == date.today().strftime("%b %d, %Y").upper(), f"The date for the latest 'Image of the day' does not match current date. Latest image upload date is {image_date}"
 
+    ##
     def test_explore_menu_links_status(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         homepage = NasaHomePage(page)
