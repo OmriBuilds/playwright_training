@@ -60,7 +60,8 @@ class TestNASAWebsite:
         image_date = image_page.get_date_image_of_the_day()
         assert image_date == date.today().strftime("%b %d, %Y").upper(), f"The date for the latest 'Image of the day' does not match current date. Latest image upload date is {image_date}"
 
-    ##
+    ## Opens "Explore" drop-menu, extracts the links into a list, visits each link and checks the result page status,
+    ## adds broken links into a list, checks if there are broken links and prints them.
     def test_explore_menu_links_status(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         homepage = NasaHomePage(page)
