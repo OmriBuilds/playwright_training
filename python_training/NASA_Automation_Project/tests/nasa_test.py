@@ -39,7 +39,6 @@ class TestNASAHomePage:
         results_page.click_search_result()
         results_date = results_page.check_results_date()
         assert results_date == int(date.today().year), "Results date does not match search filter."
-        # print("pause")
 
     def test_logo_link_image_page(self, setup_playwright_nasa):
         page = setup_playwright_nasa
@@ -52,13 +51,16 @@ class TestNASAHomePage:
         image_page = ImageOfTheDayPage(page)
         image_page.click_image_of_the_day()
         image_date = image_page.get_date_image_of_the_day()
-        assert image_date == date.today().strftime("%b %d, %Y").upper(), "Image date does not match current date."
+        assert image_date == date.today().strftime("%b %d, %Y").upper(), "The date for the latest 'Image of the day' does not match current date."
 
     def test_explore_menu_links(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         homepage = NasaHomePage(page)
-        homepage.check_explore_menu_links()
-
-
-
-###
+        links = homepage.get_explore_menu_links()
+        broken_links = []
+        for link in links:
+            response = page.goto(link)
+            if response.status >= 400:
+                broken_links.append(f"{link} | status: {response.status}")
+            # print(f"response status for {link} is {response.status}.")
+        assert not broken_links, f"The following links are broken: {broken_links}"
