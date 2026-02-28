@@ -7,12 +7,14 @@ from python_training.NASA_Automation_Project.pages.search_results_page import Se
 from python_training.NASA_Automation_Project.tests.conftest import setup_playwright_nasa
 
 
-class TestNASAHomePage:
+class TestNASAWebsite:
 
+    ## Checks that the homepage title contains the name "NASA".
     def test_homepage_title_contains_nasa(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         assert "NASA" in page.title(), "Homepage title does not contain NASA"
 
+    ## Performs a search of a valid term and checks that the results page contains the search term.
     def test_search_bar_functionality(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         homepage = NasaHomePage(page)
@@ -21,7 +23,7 @@ class TestNASAHomePage:
         search_results = result_page.get_search_results_title()
         expect(search_results).to_contain_text(planets[0])
 
-
+    ## Performs a search of a valid term and verifies the search yields results.
     def test_search_results_sum(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         homepage = NasaHomePage(page)
@@ -30,6 +32,8 @@ class TestNASAHomePage:
         search_results_sum = result_page.extract_results_sum()
         assert search_results_sum > 0, f'0 Results found for "{planets[1]}".'
 
+    ## Performs a search, filters the results to the last year, enters a result and extracts the publishing date
+    ## compares the results publishing year to current year.
     def test_radio_button_functionality(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         homepage = NasaHomePage(page)
@@ -40,20 +44,23 @@ class TestNASAHomePage:
         results_date = results_page.check_results_date()
         assert results_date == int(date.today().year), "Results date does not match search filter."
 
+    ## Verifies that clicking the top "NASA" logo leads from Image of the day page to homepage.
     def test_logo_link_image_page(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         NasaHomePage(page).go_to_image_of_the_day()
         assert ImageOfTheDayPage(page).verify_logo_link() == URL, f"Logo link does not match '{URL}'."
 
+    ## Goes to "Image of the day" page, extracts the publishing date of the latest uploaded image,
+    ## compares to current date using strftime
     def test_image_of_the_day_date(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         NasaHomePage(page).go_to_image_of_the_day()
         image_page = ImageOfTheDayPage(page)
         image_page.click_image_of_the_day()
         image_date = image_page.get_date_image_of_the_day()
-        assert image_date == date.today().strftime("%b %d, %Y").upper(), "The date for the latest 'Image of the day' does not match current date."
+        assert image_date == date.today().strftime("%b %d, %Y").upper(), f"The date for the latest 'Image of the day' does not match current date. Latest image upload date is {image_date}"
 
-    def test_explore_menu_links(self, setup_playwright_nasa):
+    def test_explore_menu_links_status(self, setup_playwright_nasa):
         page = setup_playwright_nasa
         homepage = NasaHomePage(page)
         links = homepage.get_explore_menu_links()
