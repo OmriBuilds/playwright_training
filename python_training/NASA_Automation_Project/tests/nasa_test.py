@@ -4,7 +4,6 @@ from python_training.NASA_Automation_Project.globals import URL, planets
 from python_training.NASA_Automation_Project.pages.image_of_the_day_page import ImageOfTheDayPage
 from python_training.NASA_Automation_Project.pages.nasa_home_page import NasaHomePage
 from python_training.NASA_Automation_Project.pages.search_results_page import SearchResultsPage
-from python_training.NASA_Automation_Project.tests.conftest import setup_playwright_nasa
 
 
 class TestNASAWebsite:

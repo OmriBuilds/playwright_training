@@ -7,7 +7,7 @@ from python_training.NASA_Automation_Project.globals import URL
 def setup_playwright_nasa():
     print (f"starting playwright")
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=False, slow_mo=500)
         page = browser.new_page()
         page.goto(URL)
         yield page

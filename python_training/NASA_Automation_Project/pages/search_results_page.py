@@ -18,9 +18,10 @@ class SearchResultsPage:
 
     def click_search_result(self):
         self.page.locator("li.hds-search-result-position a").first.click()
+        self.page.wait_for_load_state("networkidle")
 
     def check_results_date(self):
         date = self.page.locator("div.hds-footer-meta-value").first.inner_text()
-        year = date.split(", ")[1]
+        year = date.split()[-1]
         return int(year)
 
